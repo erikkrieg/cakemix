@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"text/template"
@@ -30,12 +30,9 @@ func check(e error) {
 }
 
 func main() {
-	data := unmarshalInputs(mock)
-	fmt.Printf("--- m:\n%v\n\n", data)
 	casting, err := os.Open(filePath)
 	check(err)
-	rendered := renderCasting(data, casting)
-	defer check(rendered.Close())
+	check(renderCasting(unmarshalInputs(mock), casting).Close())
 }
 
 func unmarshalInputs(inputs string) map[interface{}]interface{} {
@@ -45,17 +42,16 @@ func unmarshalInputs(inputs string) map[interface{}]interface{} {
 	return data
 }
 
-func renderCasting(data map[interface{}]interface{}, file *os.File) *os.File {
-	b, err := ioutil.ReadAll(file)
+func renderCasting(data map[interface{}]interface{}, casting io.Reader) *os.File {
+	//templateBytes := []byte{}
+	//_, err := casting.Read(templateBytes)
+	templateBytes, err := ioutil.ReadAll(casting)
 	check(err)
-	templateString := string(b)
-	fmt.Println("Template:")
-	fmt.Println(templateString)
+	templateString := string(templateBytes)
 	t, err := template.New("cast").Parse(templateString)
 	check(err)
 	newFile, err := os.Create("cast.json")
 	check(err)
 	check(t.Execute(newFile, data))
-	check(newFile.Sync())
 	return newFile
 }
