@@ -1,0 +1,6 @@
+{
+  "value": "{{.bool}}",
+  "quoted": "{{.str_unquoted}}",
+  "unquoted": "{{.str_unquoted}}",
+  "foo": "{{.nested.foo}}"
+}
