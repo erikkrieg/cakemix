@@ -9,20 +9,6 @@ import (
 	"github.com/erikkrieg/cast/internal/values"
 )
 
-var mock = `
-bool: true
-str_quoted: "this is a test"
-str_unquoted: this is a test
-list:
-- 1
-- 2
-- 3
-nested:
-  foo: bar
-`
-
-var filePath = "./test.json"
-
 func check(e error) {
 	if e != nil {
 		panic(e)
@@ -30,9 +16,9 @@ func check(e error) {
 }
 
 func main() {
-	casting, err := os.Open(filePath)
+	casting, err := os.Open("examples/casting.json")
 	check(err)
-	vals, err := values.Parse(mock)
+	vals, err := values.ParseFile("examples/values.yaml")
 	check(err)
 	check(renderCasting(vals, casting).Close())
 }
