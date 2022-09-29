@@ -6,7 +6,7 @@ import (
 	"os"
 	"text/template"
 
-	"gopkg.in/yaml.v3"
+	"github.com/erikkrieg/cast/internal/values"
 )
 
 var mock = `
@@ -32,25 +32,18 @@ func check(e error) {
 func main() {
 	casting, err := os.Open(filePath)
 	check(err)
-	check(renderCasting(unmarshalInputs(mock), casting).Close())
-}
-
-func unmarshalInputs(inputs string) map[interface{}]interface{} {
-	data := make(map[interface{}]interface{})
-	err := yaml.Unmarshal([]byte(inputs), &data)
+	vals, err := values.Parse(mock)
 	check(err)
-	return data
+	check(renderCasting(vals, casting).Close())
 }
 
 func renderCasting(data map[interface{}]interface{}, casting io.Reader) *os.File {
-	//templateBytes := []byte{}
-	//_, err := casting.Read(templateBytes)
 	templateBytes, err := ioutil.ReadAll(casting)
 	check(err)
 	templateString := string(templateBytes)
 	t, err := template.New("cast").Parse(templateString)
 	check(err)
-	newFile, err := os.Create("cast.json")
+	newFile, err := os.Create("./tmp/cast.json")
 	check(err)
 	check(t.Execute(newFile, data))
 	return newFile
