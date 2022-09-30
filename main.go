@@ -1,8 +1,6 @@
 package main
 
 import (
-	"os"
-
 	"github.com/erikkrieg/cast/internal/casting"
 	"github.com/erikkrieg/cast/internal/values"
 )
@@ -16,7 +14,5 @@ func check(e error) {
 func main() {
 	vals, err := values.ParseFile("examples/values.yaml")
 	check(err)
-	templateStr, err := os.ReadFile("examples/casting.json")
-	check(err)
-	check(casting.Render(vals, string(templateStr), "./tmp/cast.json"))
+	check(casting.RecRender(vals, "examples", "tmp"))
 }

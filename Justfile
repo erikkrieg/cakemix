@@ -3,3 +3,7 @@ run *ARGS:
 
 build:
   @go build
+
+clean:
+  @rm -rf tmp
+  @mkdir tmp
