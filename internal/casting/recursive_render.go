@@ -10,7 +10,6 @@ import (
 
 // Recursively traverse directory of templates and render them to a destination.
 func RecRender(values values.Values, templateDir string, destDir string) error {
-	fmt.Printf("RecRender(%s, %s)\n", templateDir, destDir)
 	entries, err := os.ReadDir(templateDir)
 	if err != nil {
 		return err
@@ -18,6 +17,7 @@ func RecRender(values values.Values, templateDir string, destDir string) error {
 	for _, e := range entries {
 		entryPath := filepath.Join(templateDir, e.Name())
 		entryDestPath := filepath.Join(destDir, e.Name())
+		fmt.Printf("  %s -> %s\n", entryPath, entryDestPath)
 		if e.IsDir() {
 			err := os.Mkdir(entryDestPath, 0755)
 			if err != nil {

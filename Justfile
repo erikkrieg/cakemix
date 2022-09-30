@@ -7,3 +7,9 @@ build:
 clean:
   @rm -rf tmp
   @mkdir tmp
+
+alias e := examples
+alias example := examples
+examples: clean
+  @just run -o tmp examples
+  
