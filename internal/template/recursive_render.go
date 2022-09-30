@@ -1,11 +1,11 @@
-package casting
+package template
 
 import (
 	"fmt"
 	"os"
 	"path/filepath"
 
-	"github.com/erikkrieg/cast/internal/values"
+	"github.com/erikkrieg/cakemix/internal/values"
 )
 
 // Recursively traverse directory of templates and render them to a destination.

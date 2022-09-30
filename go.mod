@@ -1,4 +1,4 @@
-module github.com/erikkrieg/cast
+module github.com/erikkrieg/cakemix
 
 go 1.18
 

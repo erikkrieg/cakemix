@@ -5,14 +5,14 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/erikkrieg/cast/internal/casting"
-	"github.com/erikkrieg/cast/internal/values"
+	"github.com/erikkrieg/cakemix/internal/template"
+	"github.com/erikkrieg/cakemix/internal/values"
 	"github.com/spf13/cobra"
 )
 
 var outputDir string
 var rootCmd = &cobra.Command{
-	Use:   "cast [template_dir]",
+	Use:   "cakemix [template_dir]",
 	Short: "Create files using Go templating",
 	Long:  "Create files using Go templating",
 	Run: func(cmd *cobra.Command, args []string) {
@@ -24,7 +24,7 @@ var rootCmd = &cobra.Command{
 		vals, err := values.ParseFile(filepath.Join(templateDir, "values.yaml"))
 		cobra.CheckErr(err)
 		fmt.Printf("Generating file from %s to %s\n", templateDir, outputDir)
-		cobra.CheckErr(casting.RecRender(vals, templateDir, outputDir))
+		cobra.CheckErr(template.RecRender(vals, templateDir, outputDir))
 	},
 }
 

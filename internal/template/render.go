@@ -1,4 +1,4 @@
-package casting
+package template
 
 import (
 	"io"
@@ -7,7 +7,7 @@ import (
 
 	tpl "text/template"
 
-	"github.com/erikkrieg/cast/internal/values"
+	"github.com/erikkrieg/cakemix/internal/values"
 )
 
 func Render(name string, values values.Values, template io.Reader, destination io.Writer) error {
