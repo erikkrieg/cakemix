@@ -9,31 +9,31 @@ import (
 )
 
 // Recursively traverse directory of templates and render them to a destination.
-func RecRender(values values.Values, templateDir string, destDir string) error {
+func RecRender(values values.Values, templateDir string, outputDir string) error {
 	entries, err := os.ReadDir(templateDir)
 	if err != nil {
 		return err
 	}
 	for _, e := range entries {
 		entryPath := filepath.Join(templateDir, e.Name())
-		entryDestPath := filepath.Join(destDir, e.Name())
-		fmt.Printf("  %s -> %s\n", entryPath, entryDestPath)
+		entryOutPath := filepath.Join(outputDir, e.Name())
+		fmt.Printf("  %s -> %s\n", entryPath, entryOutPath)
 		if e.IsDir() {
-			err := os.Mkdir(entryDestPath, 0755)
+			err := os.Mkdir(entryOutPath, 0755)
 			if err != nil {
 				return err
 			}
 			err = RecRender(
 				values,
 				entryPath,
-				entryDestPath,
+				entryOutPath,
 			)
 			if err != nil {
 				return err
 			}
 			continue
 		}
-		err := RenderFile(values, entryPath, entryDestPath)
+		err := RenderFile(values, entryPath, entryOutPath)
 		if err != nil {
 			return err
 		}

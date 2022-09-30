@@ -10,7 +10,7 @@ import (
 	"github.com/erikkrieg/cakemix/internal/values"
 )
 
-func Render(name string, values values.Values, template io.Reader, destination io.Writer) error {
+func Render(name string, values values.Values, template io.Reader, output io.Writer) error {
 	templateBytes, err := ioutil.ReadAll(template)
 	if err != nil {
 		return err
@@ -19,13 +19,13 @@ func Render(name string, values values.Values, template io.Reader, destination i
 	if err != nil {
 		return err
 	}
-	return t.Execute(destination, values)
+	return t.Execute(output, values)
 }
 
 func RenderFile(
-	values values.Values, templatePath string, destinationPath string,
+	values values.Values, templatePath string, outputPath string,
 ) error {
-	destFile, err := os.Create(destinationPath)
+	destFile, err := os.Create(outputPath)
 	if err != nil {
 		return err
 	}
@@ -33,5 +33,5 @@ func RenderFile(
 	if err != nil {
 		return err
 	}
-	return Render(destinationPath, values, templateFile, destFile)
+	return Render(outputPath, values, templateFile, destFile)
 }
