@@ -1,0 +1,10 @@
+name: example-mix
+bool: true
+str_quoted: "this is a test"
+str_unquoted: this is a test
+list:
+- 1
+- 2
+- 3
+nested:
+  foo: bar
