@@ -26,16 +26,10 @@ func Render(name string, values values.Values, template io.Reader, output io.Wri
 func RenderFile(
 	values values.Values, templatePath string, outputPath string,
 ) error {
-	t, err := tpl.New(outputPath).Parse(outputPath)
+	outputPath, err := RenderPath(values, outputPath)
 	if err != nil {
 		return err
 	}
-	renderedOutputPathBuf := bytes.Buffer{}
-	err = t.Execute(&renderedOutputPathBuf, values)
-	if err != nil {
-		return err
-	}
-	outputPath = renderedOutputPathBuf.String()
 	destFile, err := os.Create(outputPath)
 	if err != nil {
 		return err
@@ -45,4 +39,17 @@ func RenderFile(
 		return err
 	}
 	return Render(outputPath, values, templateFile, destFile)
+}
+
+func RenderPath(values values.Values, outputPath string) (string, error) {
+	t, err := tpl.New(outputPath).Parse(outputPath)
+	if err != nil {
+		return "", err
+	}
+	renderedOutputPathBuf := bytes.Buffer{}
+	err = t.Execute(&renderedOutputPathBuf, values)
+	if err != nil {
+		return "", err
+	}
+	return renderedOutputPathBuf.String(), nil
 }

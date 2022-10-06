@@ -16,7 +16,10 @@ func RecRender(values values.Values, templateDir string, outputDir string) error
 	}
 	for _, e := range entries {
 		entryPath := filepath.Join(templateDir, e.Name())
-		entryOutPath := filepath.Join(outputDir, e.Name())
+		entryOutPath, err := RenderPath(values, filepath.Join(outputDir, e.Name()))
+		if err != nil {
+			return err
+		}
 		fmt.Printf("  %s -> %s\n", entryPath, entryOutPath)
 		if e.IsDir() {
 			err := os.Mkdir(entryOutPath, 0755)
@@ -33,7 +36,7 @@ func RecRender(values values.Values, templateDir string, outputDir string) error
 			}
 			continue
 		}
-		err := RenderFile(values, entryPath, entryOutPath)
+		err = RenderFile(values, entryPath, entryOutPath)
 		if err != nil {
 			return err
 		}
