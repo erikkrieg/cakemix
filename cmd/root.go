@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var valuesFile string
 var outputDir string
 var rootCmd = &cobra.Command{
 	Use:   "cakemix [template_dir]",
@@ -21,7 +22,7 @@ var rootCmd = &cobra.Command{
 			return
 		}
 		templateDir := args[0]
-		vals, err := values.ParseFile(filepath.Join(templateDir, "values.yaml"))
+		vals, err := values.ParseFile(filepath.Join(templateDir, valuesFile))
 		cobra.CheckErr(err)
 		fmt.Printf("Generating file from %s to %s\n", templateDir, outputDir)
 		cobra.CheckErr(template.RecRender(vals, templateDir, outputDir))
@@ -29,6 +30,10 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
+	rootCmd.Flags().StringVarP(
+		&valuesFile,
+		"values-file", "f", "cakemix.yaml", "YAML file containing prompts and default data",
+	)
 	rootCmd.Flags().StringVarP(
 		&outputDir,
 		"output-dir", "o", "", "Write templates to this dir",
