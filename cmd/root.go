@@ -22,10 +22,12 @@ var rootCmd = &cobra.Command{
 			return
 		}
 		templateDir := args[0]
-		vals, err := values.ParseFile(filepath.Join(templateDir, valuesFile))
+		valuesRelPath := filepath.Join(templateDir, valuesFile)
+		vals, err := values.ParseFile(valuesRelPath)
 		cobra.CheckErr(err)
 		fmt.Printf("Generating file from %s to %s\n", templateDir, outputDir)
-		cobra.CheckErr(template.RecRender(vals, templateDir, outputDir))
+		ignore := []string{valuesRelPath}
+		cobra.CheckErr(template.RecRender(vals, templateDir, outputDir, ignore))
 	},
 }
 
