@@ -1,6 +1,7 @@
 package template
 
 import (
+	"bytes"
 	"io"
 	"io/ioutil"
 	"os"
@@ -25,6 +26,16 @@ func Render(name string, values values.Values, template io.Reader, output io.Wri
 func RenderFile(
 	values values.Values, templatePath string, outputPath string,
 ) error {
+	t, err := tpl.New(outputPath).Parse(outputPath)
+	if err != nil {
+		return err
+	}
+	renderedOutputPathBuf := bytes.Buffer{}
+	err = t.Execute(&renderedOutputPathBuf, values)
+	if err != nil {
+		return err
+	}
+	outputPath = renderedOutputPathBuf.String()
 	destFile, err := os.Create(outputPath)
 	if err != nil {
 		return err
