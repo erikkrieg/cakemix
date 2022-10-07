@@ -26,8 +26,8 @@ var rootCmd = &cobra.Command{
 		vals, err := values.ParseFile(valuesRelPath)
 		cobra.CheckErr(err)
 		fmt.Printf("Generating file from %s to %s\n", templateDir, outputDir)
-		ignore := []string{valuesRelPath}
-		cobra.CheckErr(template.RecRender(vals, templateDir, outputDir, ignore))
+		tpl := template.New(vals, templateDir, outputDir).IgnoreFile(valuesRelPath)
+		cobra.CheckErr(tpl.Render())
 	},
 }
 
