@@ -1,1 +1,1 @@
-{{.nested.foo}}
+{{.nested.foo | upper | repeat 2}}
