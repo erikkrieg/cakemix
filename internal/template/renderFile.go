@@ -5,8 +5,9 @@ import (
 	"io/ioutil"
 	"os"
 
-	tpl "text/template"
+	tpl "html/template"
 
+	"github.com/Masterminds/sprig/v3"
 	"github.com/erikkrieg/cakemix/internal/values"
 )
 
@@ -15,7 +16,7 @@ func render(name string, values values.Values, template io.Reader, output io.Wri
 	if err != nil {
 		return err
 	}
-	t, err := tpl.New(name).Parse(string(templateBytes))
+	t, err := tpl.New(name).Funcs(sprig.FuncMap()).Parse(string(templateBytes))
 	if err != nil {
 		return err
 	}
