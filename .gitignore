@@ -1,7 +1,11 @@
+# Nix dev shell
 .direnv
+.go
 
-# Binary
+# Builds
+result
 cakemix
+
+# Output from examples
 tmp
 
-.go
