@@ -12,6 +12,7 @@ import (
 
 var valuesFile string
 var outputDir string
+var ignorePrompts bool
 var rootCmd = &cobra.Command{
 	Use:   "cakemix [template_dir]",
 	Short: "Create files using Go templating",
@@ -23,7 +24,7 @@ var rootCmd = &cobra.Command{
 		}
 		templateDir := args[0]
 		valuesRelPath := filepath.Join(templateDir, valuesFile)
-		vals, err := values.ParseFile(valuesRelPath)
+		vals, err := values.ParseFile(valuesRelPath, ignorePrompts)
 		cobra.CheckErr(err)
 		fmt.Printf("Generating file from %s to %s\n", templateDir, outputDir)
 		tpl := template.New(vals, templateDir, outputDir).IgnoreFile(valuesRelPath)
@@ -39,6 +40,10 @@ func init() {
 	rootCmd.Flags().StringVarP(
 		&outputDir,
 		"output-dir", "o", "", "Write templates to this dir",
+	)
+	rootCmd.Flags().BoolVarP(
+		&ignorePrompts,
+		"ignore-prompts", "i", false, "Do not prompt for values",
 	)
 }
 
