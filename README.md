@@ -10,14 +10,7 @@ To use Cakemix, create a directory with a `cakemix.yaml` file and any other file
 
 #### Creating a Template
 
-For example, let's create a `cakemix.yaml` file with the following content:
-
-```yaml
-title: cakemix
-purpose: demonstrate how to use cakemix
-```
-
-Now, in a template directory, create a file called `cakemix.yaml` and another file called `{{.title}}.md`. The directory structure should look like this:
+Create a template directory containing a file called `cakemix.yaml` and another file called `{{.title}}.md`. The directory structure should look like this:
 
 ```
 template/
@@ -25,9 +18,14 @@ template/
   {{.title}}.md
 ```
 
-##### Example of a Templated File
+The `cakemix.yaml` contains:
 
-The `{{.title}}.md` file should have the following content:
+```yaml
+title: cakemix
+purpose: demonstrate how to use cakemix
+```
+
+The `{{.title}}.md` file has the following content:
 
 ```md
 # {{ title .title }}
@@ -40,7 +38,7 @@ The purpose of this document is to: {{ .purpose }}
 To use the template, run the following command:
 
 ```sh
-cakemix template --output-dir .
+cakemix ./template --output-dir .
 ```
 
 This will create a file called `cakemix.md` in the current directory, with the following content:
@@ -64,10 +62,10 @@ Usage:
   cakemix [template_dir] [flags]
 
 Flags:
-  -h, --help                 Display help for cakemix
+  -h, --help                 help for cakemix
   -i, --ignore-prompts       Do not prompt for values
-  -o, --output-dir string    Specify the output directory
-  -f, --values-file string   Specify the YAML file containing prompts and default data (default "cakemix.yaml")
+  -o, --output-dir string    Write templates to this dir
+  -f, --values-file string   YAML file containing prompts and default data (default "cakemix.yaml")`
 ```
 
 #### Values File
@@ -83,7 +81,7 @@ prompt_a:
 prompt_b: nil
 ```
 
-You can disable prompts by using the `-i` flag, like this: `cakemix template -i -o target`.
+You can disable prompts by using the `-i` flag, like this: `cakemix ./template -i -o target`.
 
 #### Template Functions
 
