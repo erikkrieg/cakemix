@@ -20,7 +20,7 @@
         };
         cakemix = pkgs.buildGoApplication {
           pname = "cakemix";
-          version = "1.0.0";
+          version = "1.0.1";
           src = ./.;
           modules = ./gomod2nix.toml;
         };
