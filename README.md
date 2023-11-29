@@ -2,6 +2,46 @@
 
 Cakemix is a simple yet scrumptious tool for templating files using [Go templating](http://golang.org/pkg/text/template/) and [Sprig](https://github.com/Masterminds/sprig). It allows you to template file paths and contents by using a `cakemix.yaml` file that contains key-value pairs. These pairs can be interpolated in the names and contents of files and directories.
 
+## Installation
+
+### Using `go install`
+
+Compile and install cakemix to `$GOPATH/bin`:
+
+```sh
+go install github.com/erikkrieg/cakemix
+```
+
+### Using Nix
+
+Include as a package in a Nix flake:
+
+```nix
+{
+  description = "Example flake";
+
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+    cakemix.url = "github:erikkrieg/cakemix";
+  };
+
+  outputs = { flake-utils, nixpkgs, cakemix, ... }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
+      with pkgs; {
+        devShell = mkShell {
+          buildInputs = [
+            cakemix.packages.${system}.default
+        };
+      });
+}
+```
+
+This is just an example of cakemix added to a dev shell, but it can of course be installed as a system or user package.
+
 ## Usage
 
 To use Cakemix, create a directory with a `cakemix.yaml` file and any other files you want to use as templates. The `cakemix.yaml` file will contain the keys and values to be passed to the templated files. You can then use these values in the contents and names of files and directories.
