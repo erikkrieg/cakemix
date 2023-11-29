@@ -55,7 +55,7 @@ For more advanced usage, you can explore the examples provided in the [examples]
 
 #### Command Line Options
 
-Cakemix also offers various command line options. Here are some of them:
+Cakemix also offers various command line options:
 
 ```
 Usage:
