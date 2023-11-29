@@ -8,4 +8,6 @@ list:
   - 3
 nested:
   foo: bar
+num_a: 1
+num_b: 99
 prompt:
